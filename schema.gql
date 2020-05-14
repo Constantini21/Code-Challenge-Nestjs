@@ -33,8 +33,9 @@ type Query {
 }
 
 type Mutation {
-  createUser(data: UserSchema!): User!
+  createOrLoginUser(data: UserSchema!): User!
   createMessage(data: MessageSchema!): Message!
+  deleteMessage(data: DeleteMessage!): Boolean!
 }
 
 input UserSchema {
@@ -44,4 +45,8 @@ input UserSchema {
 input MessageSchema {
   content: String!
   userId: Float!
+}
+
+input DeleteMessage {
+  id: Float!
 }

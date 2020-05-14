@@ -9,20 +9,30 @@ export class UserResolver {
   constructor(private readonly repositoryService: RepositoryService) {}
 
   @Query(() => [User])
-  public async getUsers(): Promise<User[]> {
+  public async GetUsers(): Promise<User[]> {
     return this.repositoryService.userRepository.find();
   }
 
   @Query(() => User)
-  public async getUser(@Args('id') id: number): Promise<User> {
+  public async GetUser(@Args('id') id: number): Promise<User> {
     return this.repositoryService.userRepository.findOne(id);
   }
 
   @Mutation(() => User)
-  public async createUser(@Args('data') userSchema: UserSchema): Promise<User> {
-    const user = this.repositoryService.userRepository.create({
-      email: userSchema.email,
+  public async CreateOrLoginUser(
+    @Args('data') userSchema: UserSchema,
+  ): Promise<User> {
+    let user = await this.repositoryService.userRepository.findOne({
+      email: userSchema.email.toLowerCase().trim(),
     });
+
+    if (!user) {
+      user = this.repositoryService.userRepository.create({
+        email: userSchema.email.toLowerCase().trim(),
+      });
+
+      await this.repositoryService.userRepository.save(user);
+    }
 
     return this.repositoryService.userRepository.save(user);
   }

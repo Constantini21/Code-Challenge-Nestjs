@@ -8,3 +8,12 @@ export class MessageSchema {
   @Field()
   readonly userId: number;
 }
+
+@InputType()
+export class DeleteMessage {
+  @Field()
+  readonly id: number;
+
+  @Field()
+  readonly userId: number;
+}
