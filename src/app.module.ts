@@ -13,6 +13,7 @@ import { rootResolver } from './graphql/root.resolver';
     ...rootResolver,
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
+      installSubscriptionHandlers: true,
       playground: true,
     }),
   ],

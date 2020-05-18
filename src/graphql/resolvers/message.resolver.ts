@@ -5,13 +5,17 @@ import {
   Resolver,
   ResolveField,
   Mutation,
+  Subscription,
 } from '@nestjs/graphql';
+
+import { PubSub } from 'graphql-subscriptions';
 
 import { RepositoryService } from '../../repository/repository.service';
 import { User } from '../../database/entities/user';
 import { Message } from '../../database/entities/message';
 import { MessageSchema, DeleteMessage } from '../schemas/message.schema';
 
+const pubSub = new PubSub();
 @Resolver(() => Message)
 export class MessageResolver {
   constructor(private readonly repositoryService: RepositoryService) {}
@@ -20,9 +24,18 @@ export class MessageResolver {
   public async CreateMessage(
     @Args('data') input: MessageSchema,
   ): Promise<Message> {
-    const message = this.repositoryService.messageRepository.create(input);
+    const message = this.repositoryService.messageRepository.create({
+      userId: input.userId,
+      content: input.content,
+    });
 
-    return this.repositoryService.messageRepository.save(message);
+    const response = await this.repositoryService.messageRepository.save(
+      message,
+    );
+
+    pubSub.publish('messageAdded', { messageAdded: message });
+
+    return response;
   }
 
   @Mutation(() => Boolean)
@@ -64,7 +77,12 @@ export class MessageResolver {
     return this.repositoryService.messageRepository.findOne(id);
   }
 
-  @ResolveField(() => User)
+  @Subscription(() => Message)
+  messageAdded(): any {
+    return pubSub.asyncIterator('messageAdded');
+  }
+
+  @ResolveField(() => User, { name: 'user' })
   public async GetUser(@Parent() parent: Message): Promise<User> {
     return this.repositoryService.userRepository.findOne(parent.userId);
   }
