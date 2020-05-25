@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Message } from './message';
+import { Message } from './message.entity';
 
 @ObjectType()
 @Entity('users')

@@ -9,7 +9,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 
-import { User } from './user';
+import { User } from './user.entityl';
 
 @ObjectType()
 @Entity('messages')

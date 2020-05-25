@@ -24,29 +24,29 @@ type User {
 }
 
 type Query {
-  GetUsers: [User!]!
-  GetUser(id: Float!): User!
-  GetMessages: [Message!]!
-  GetMessagesFromUser(userId: Float!): [Message!]!
-  GetMessage(id: Float!): Message
+  getUsers: [User!]!
+  getUser(id: Float!): User!
+  getMessages: [Message!]!
+  getMessagesFromUser(userId: Float!): [Message!]!
+  getMessage(id: Float!): Message
 }
 
 type Mutation {
-  CreateOrLoginUser(data: UserSchema!): User!
-  CreateMessage(data: MessageSchema!): Message!
-  DeleteMessage(data: DeleteMessage!): Boolean!
+  createOrLogin(args: UserInput!): User!
+  createMessage(args: MessageInput!): Message!
+  deleteMessage(args: DeleteMessageInput!): Boolean!
 }
 
-input UserSchema {
+input UserInput {
   email: String!
 }
 
-input MessageSchema {
+input MessageInput {
   content: String!
   userId: Float!
 }
 
-input DeleteMessage {
+input DeleteMessageInput {
   id: Float!
   userId: Float!
 }

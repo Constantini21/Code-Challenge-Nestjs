@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class MessageSchema {
+export class MessageInput {
   @Field()
   readonly content: string;
 
@@ -10,7 +10,7 @@ export class MessageSchema {
 }
 
 @InputType()
-export class DeleteMessage {
+export class DeleteMessageInput {
   @Field()
   readonly id: number;
 

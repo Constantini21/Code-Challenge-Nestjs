@@ -2,8 +2,8 @@ import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { RepositoryService } from './repository.service';
-import { User } from '../database/entities/user';
-import { Message } from '../database/entities/message';
+import { User } from '../database/entities/user.entityl';
+import { Message } from '../database/entities/message.entity';
 
 @Global()
 @Module({

@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 
-import { User } from '../database/entities/user';
-import { Message } from '../database/entities/message';
-
+import { User } from '../database/entities/user.entityl';
+import { Message } from '../database/entities/message.entity';
 @Injectable()
 export class RepositoryService {
-  public constructor(
-    @InjectRepository(User) public readonly userRepository: Repository<User>,
-    @InjectRepository(Message)
-    public readonly messageRepository: Repository<Message>,
-  ) {}
+  public userRepository(): Repository<User> {
+    return new Repository<User>();
+  }
+
+  public messageRepository(): Repository<Message> {
+    return new Repository<Message>();
+  }
 }
