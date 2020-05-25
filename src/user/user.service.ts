@@ -9,26 +9,26 @@ export class UserService {
   constructor(private readonly repositoryService: RepositoryService) {}
 
   public async getUsers(): Promise<User[]> {
-    const users = await this.repositoryService.userRepository().find();
+    const users = await this.repositoryService.userRepository.find();
     return users;
   }
 
   public async getUser(id: number): Promise<User> {
-    const user = await this.repositoryService.userRepository().findOne(id);
+    const user = await this.repositoryService.userRepository.findOne(id);
     return user;
   }
 
   public async createOrLogin(args: UserInput): Promise<User> {
-    let user = await this.repositoryService.userRepository().findOne({
+    let user = await this.repositoryService.userRepository.findOne({
       email: args.email.toLowerCase().trim(),
     });
 
     if (!user) {
-      user = this.repositoryService.userRepository().create({
+      user = this.repositoryService.userRepository.create({
         email: args.email.toLowerCase().trim(),
       });
 
-      await this.repositoryService.userRepository().save(user);
+      await this.repositoryService.userRepository.save(user);
     }
 
     return user;

@@ -65,6 +65,6 @@ export class MessageResolver {
 
   @ResolveField(() => User, { name: 'user' })
   public async getUser(@Parent() args: Message): Promise<User> {
-    return this.getUser(args);
+    return this.messageService.getUser(args);
   }
 }
